@@ -5,10 +5,13 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 from app import audit
-from app.store import get_store
+from app.adapters.fhir import fhir_to_event
+from app.adapters.hl7 import hl7_to_event
 from app.config import API_KEY, CORS_ORIGINS
+from app.ingest_schemas import FhirIngestRequest, Hl7IngestRequest
 from app.registry import registry
 from app.schemas import AckRequest, EventRequest, ScoreRequest, ScoreResponse
+from app.store import get_store
 
 app = FastAPI(
     title="ACCORD-SL Alert API",
@@ -118,6 +121,24 @@ def lab_event(event: EventRequest) -> dict:
         "alert": alert,
         "pending_t2": store.get_pending(event.encounter_id) is not None,
     }
+
+
+@app.post("/v1/integrations/fhir", dependencies=[Depends(require_key)])
+def ingest_fhir(req: FhirIngestRequest) -> dict:
+    try:
+        event = fhir_to_event(req.bundle, req.encounter_id, req.model_id, req.age)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    return lab_event(event)
+
+
+@app.post("/v1/integrations/hl7", dependencies=[Depends(require_key)])
+def ingest_hl7(req: Hl7IngestRequest) -> dict:
+    try:
+        event = hl7_to_event(req.message, req.encounter_id, req.model_id, req.age)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    return lab_event(event)
 
 
 @app.get("/v1/pending/{encounter_id}", dependencies=[Depends(require_key)])
