@@ -1,0 +1,21 @@
+{
+  "request_id": "req-t2-001",
+  "encounter_id": "enc-t2-001",
+  "patient": {
+    "age": 70
+  },
+  "labs": {
+    "pt_activity": 100.8,
+    "hs_crp": "> 10.00",
+    "potassium": 4.15,
+    "calcium": 2.5,
+    "aptt": "23.9",
+    "phosphate": 1.07,
+    "co2_binding": "29",
+    "chloride": 105.0,
+    "crp": "35.03",
+    "magnesium": 0.89,
+    "sodium": 140.0
+  },
+  "context": {}
+}
