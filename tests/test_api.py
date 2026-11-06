@@ -103,3 +103,25 @@ def test_demo_plugin_proves_slot():
     data = r.json()
     assert data["result"]["tier"] == "single"
     assert "demo" in data["result"]["disclaimer"].lower()
+
+def test_fhir_adapter_creates_t2_alert():
+    import json
+    from pathlib import Path
+    bundle = json.loads((Path(__file__).parents[1] / "samples" / "fhir_bundle.json").read_text(encoding="utf-8"))
+    r = client.post("/v1/integrations/fhir", json={"bundle": bundle, "encounter_id": "enc-fhir", "model_id": "gist"}, headers=HEADERS)
+    assert r.status_code == 200
+    data = r.json()
+    assert data["result"]["tier"] == "T2"
+    assert data["result"]["flag"] is True
+    assert data["alert"] is not None
+
+
+def test_hl7_adapter_creates_t2_alert():
+    from pathlib import Path
+    message = (Path(__file__).parents[1] / "samples" / "hl7_oru.txt").read_text(encoding="utf-8")
+    r = client.post("/v1/integrations/hl7", json={"message": message, "encounter_id": "enc-hl7", "model_id": "gist"}, headers=HEADERS)
+    assert r.status_code == 200
+    data = r.json()
+    assert data["result"]["tier"] == "T2"
+    assert data["result"]["flag"] is True
+    assert data["alert"] is not None
