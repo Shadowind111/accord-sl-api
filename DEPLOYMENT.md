@@ -136,11 +136,12 @@ The full field list is in `GET /v1/models/gist`. `missing_inputs` in the respons
 
 ### C. FHIR/HL7 adapter
 
-Not included. Add an adapter that:
+Reference HTTP adapters are included:
 
-- parses HL7 ORU^R01 / FHIR Observation;
-- maps to the API JSON;
-- writes back a FHIR `RiskAssessment`/`Flag`/`Task` if required.
+- `POST /v1/integrations/fhir` for a FHIR R4 Bundle of Observations;
+- `POST /v1/integrations/hl7` for an HL7 v2 ORU^R01 pipe message.
+
+They perform minimal code/value mapping only. In production, the hospital integration engine should validate FHIR/HL7, reconcile patient/encounter identity, convert units, handle MLLP/ACK, and write back a FHIR `RiskAssessment`/`Flag`/`Task` if required. See `INTEGRATION_FHIR_HL7.md`.
 
 ## 8. Alert policy
 
@@ -186,7 +187,7 @@ The platform slot makes integration uniform; it does **not** remove the need for
 - Fast mode only;
 - PostgreSQL support is included; in-memory store remains for tests/demo.
 - API-key auth only;
-- no FHIR/HL7 adapter;
+- reference FHIR/HL7 adapters only; no full validation, ACK/MLLP or write-back;
 - no database;
 - no rate limiting;
 - not a medical device.
