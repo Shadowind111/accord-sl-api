@@ -52,6 +52,8 @@ X-API-Key: dev-key-change-me
 | GET | `/v1/models/{model_id}` | One manifest |
 | POST | `/v1/score/{model_id}` | Score one case |
 | POST | `/v1/events/lab` | Lab-result event; auto-route to plugin |
+| POST | `/v1/integrations/fhir` | FHIR R4 Observation bundle adapter |
+| POST | `/v1/integrations/hl7` | HL7 v2 ORU^R01 adapter |
 | GET | `/v1/pending/{encounter_id}` | T1-high, T2-pending state |
 | GET | `/v1/alerts` | Alert queue |
 | POST | `/v1/alerts/{alert_id}/ack` | Acknowledge |
