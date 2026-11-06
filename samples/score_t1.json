@@ -1,0 +1,15 @@
+{
+  "request_id": "req-t1-001",
+  "encounter_id": "enc-t1-001",
+  "patient": {
+    "age": 70
+  },
+  "labs": {
+    "basophil_pct": 0.9,
+    "alt": "20",
+    "albumin": "42.0",
+    "urine_color": "黄褐色",
+    "fecal_occult": "阴性(-)"
+  },
+  "context": {}
+}
