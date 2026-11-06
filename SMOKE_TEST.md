@@ -4,7 +4,7 @@
 
 ```text
 python -m pytest tests -q
-7 passed
+9 passed
 ```
 
 ## Docker
@@ -26,6 +26,11 @@ flag: true
 alert.channel: queue
 alert.title: GIST 风险评估提示（研究）
 ```
+
+## FHIR/HL7
+
+- `samples/fhir_bundle.json` -> `/v1/integrations/fhir`: T2, flag true, alert created;
+- `samples/hl7_oru.txt` -> `/v1/integrations/hl7`: T2, flag true, alert created.
 
 ## PostgreSQL
 
