@@ -258,6 +258,122 @@
         }
       }
     },
+    "/v1/integrations/fhir": {
+      "post": {
+        "summary": "Ingest Fhir",
+        "operationId": "ingest_fhir_v1_integrations_fhir_post",
+        "parameters": [
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FhirIngestRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Ingest Fhir V1 Integrations Fhir Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/integrations/hl7": {
+      "post": {
+        "summary": "Ingest Hl7",
+        "operationId": "ingest_hl7_v1_integrations_hl7_post",
+        "parameters": [
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hl7IngestRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Ingest Hl7 V1 Integrations Hl7 Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/pending/{encounter_id}": {
       "get": {
         "summary": "Get Pending",
@@ -718,6 +834,45 @@
         ],
         "title": "EventRequest"
       },
+      "FhirIngestRequest": {
+        "properties": {
+          "bundle": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Bundle",
+            "description": "FHIR R4 Bundle"
+          },
+          "encounter_id": {
+            "type": "string",
+            "title": "Encounter Id"
+          },
+          "model_id": {
+            "type": "string",
+            "title": "Model Id",
+            "default": "gist"
+          },
+          "age": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 120.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Age",
+            "description": "Optional age override"
+          }
+        },
+        "type": "object",
+        "required": [
+          "bundle",
+          "encounter_id"
+        ],
+        "title": "FhirIngestRequest"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -730,6 +885,44 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "Hl7IngestRequest": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "HL7 v2 ORU^R01 pipe message"
+          },
+          "encounter_id": {
+            "type": "string",
+            "title": "Encounter Id"
+          },
+          "model_id": {
+            "type": "string",
+            "title": "Model Id",
+            "default": "gist"
+          },
+          "age": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 120.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Age",
+            "description": "Optional age override"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "encounter_id"
+        ],
+        "title": "Hl7IngestRequest"
       },
       "Patient": {
         "properties": {
