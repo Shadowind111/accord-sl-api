@@ -1,1 +1,0 @@
-﻿# ACCORD-SL alert API
